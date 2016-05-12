@@ -1,0 +1,441 @@
+<?xml version="1.0"?>
+<robot name="cyton_gamma_1500" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+  <!--xacro:include filename="$(find labrob_description)/urdf/cyton_gamma_1500.gazebo"/-->
+
+  <xacro:macro name="cyton_gamma_1500" params="parent">
+
+    <joint name="cyton_base_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="${parent}"/>
+      <child link="cyton_base_link" />
+    </joint>
+
+    <link name="cyton_base_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://labrob_description/meshes/cyton/base.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0.0115 0.047"/>
+        <geometry>
+          <!--mesh filename="package://labrob_description/meshes/cyton/base.dae"/-->
+          <box size="0.154 0.177 0.094"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.5"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <inertia ixx="0.01" iyy="0.01" izz="0.01"
+                  ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <joint name="shoulder_roll_joint" type="revolute">
+      <parent link="cyton_base_link" />
+      <child link="shoulder_roll" />
+      <origin xyz="0 0 0.05315" rpy="0 0 0" />
+      <limit lower="-2.618" upper="2.618" effort="100.0" velocity="1.0" />
+      <axis xyz="0 0 1" />
+    </joint>
+
+    <link name="shoulder_roll">
+      <visual>
+        <origin xyz="0 0 0" rpy="1.5708 0 0.384"/>
+        <geometry>
+          <mesh filename="package://labrob_description/meshes/cyton/shoulder_roll.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.069 0.0587"/>
+        <geometry>
+          <!--mesh filename="package://labrob_description/meshes/cyton/shoulder_roll.dae"/-->
+          <box size="0.09829 0.18143 0.08392"/>
+        </geometry>
+      </collision>
+     <inertial>
+        <mass value="0.25"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <inertia ixx="0.005" iyy="0.005" izz="0.005"
+                  ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <joint name="shoulder_pitch_joint" type="revolute">
+      <parent link="shoulder_roll" />
+      <child link="shoulder_pitch" />
+      <origin xyz="0.0205 0 0.12435" rpy="0 0 0" />
+      <limit lower="-1.8326" upper="1.8326" effort="100.0" velocity="1.0" />
+      <axis xyz="1 0 0" />
+    </joint>
+
+    <link name="shoulder_pitch">
+      <visual>
+        <origin xyz="0 0 0" rpy="1.5708 0 0" />
+        <geometry>
+          <mesh filename="package://labrob_description/meshes/cyton/shoulder_pitch.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="-0.001 0.064 0.1745"/>
+        <geometry>
+          <!--mesh filename="package://labrob_description/meshes/cyton/shoulder_pitch.dae"/-->
+          <box size="0.0709 0.19363 0.083"/>
+        </geometry>
+      </collision>
+     <inertial>
+        <mass value="0.1"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <inertia ixx="0.002" iyy="0.002" izz="0.002"
+                  ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <joint name="shoulder_yaw_joint" type="revolute">
+      <parent link="shoulder_pitch" />
+      <child link="shoulder_yaw" />
+      <origin xyz="-0.0215 -0.0205 0.1255" rpy="0 0 0" />
+      <limit lower="-1.8326" upper="1.8326" effort="100.0" velocity="1.0" />
+      <axis xyz="0 -1 0" />
+    </joint>
+
+    <link name="shoulder_yaw">
+      <visual>
+        <origin xyz="0 0 0.0" rpy="1.5708 0 -1.5708" />
+        <geometry>
+          <mesh filename="package://labrob_description/meshes/cyton/shoulder_yaw.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="-0.0225 0.039 0.3068"/>
+        <geometry>
+      	  <!--mesh filename="package://labrob_description/meshes/cyton/shoulder_yaw.dae"/-->
+          <box size="0.0717 0.1846 0.0756"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.05"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <inertia ixx="0.001" iyy="0.001" izz="0.001"
+                  ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <joint name="elbow_pitch_joint" type="revolute">
+      <parent link="shoulder_yaw" />
+      <child link="elbow_pitch" />
+      <origin xyz="0.018 0.0206 0.1158" rpy="0 0 0" />
+      <limit lower="-1.8326" upper="1.8326" effort="100.0" velocity="1.0" />
+      <axis xyz="1 0 0" />
+    </joint>
+
+    <link name="elbow_pitch">
+      <visual>
+        <origin xyz="0 0 0" rpy="1.5708 0 3.1416" />
+        <geometry>
+          <mesh filename="package://labrob_description/meshes/cyton/elbow_pitch.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0.0346 0.0461 0.4228"/>
+        <geometry>
+	        <!--mesh filename="package://labrob_description/meshes/cyton/elbow_pitch.dae"/-->
+          <box size="0.0549 0.1557 0.076"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.05"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <inertia ixx="0.001" iyy="0.001" izz="0.001"
+                  ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <joint name="elbow_yaw_joint" type="revolute">
+      <parent link="elbow_pitch" />
+      <child link="elbow_yaw" />
+      <origin xyz="-0.0171 -0.018 0.09746" rpy="0 0 0" />
+      <limit lower="-1.8326" upper="1.8326" effort="100.0" velocity="1.0" />
+      <axis xyz="0 -1 0" />
+    </joint>
+
+    <link name="elbow_yaw">
+      <visual>
+        <origin xyz="0 0 0" rpy="1.5708 0 1.5708" />
+        <geometry>
+          <mesh filename="package://labrob_description/meshes/cyton/elbow_yaw.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0.0172 0.0209 0.516"/>
+        <geometry>
+          <!--mesh filename="package://labrob_description/meshes/cyton/elbow_yaw.dae"/-->
+          <box size="0.0535 0.1160 0.0402"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.05"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <inertia ixx="0.001" iyy="0.001" izz="0.001"
+                  ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <joint name="wrist_pitch_joint" type="revolute">
+      <parent link="elbow_yaw" />
+      <child link="wrist_pitch" />
+      <origin xyz="0.02626 0.018 0.0718" rpy="0 0 0" />
+      <limit lower="-1.8326" upper="1.8326" effort="100.0" velocity="1.0" />
+      <axis xyz="1 0 0" />
+    </joint>
+
+    <link name="wrist_pitch">
+      <visual>
+        <origin xyz="0 0 0" rpy="1.5708 0 1.5708" />
+        <geometry>
+          <mesh filename="package://labrob_description/meshes/cyton/wrist_pitch.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0.0257 0.0118 0.5617"/>
+        <geometry>
+          <!--mesh filename="package://labrob_description/meshes/cyton/wrist_pitch.dae"/-->
+          <box size="0.026 0.0435 0.05185"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.05"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <inertia ixx="0.001" iyy="0.001" izz="0.001"
+                  ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <joint name="wrist_roll_joint" type="revolute">
+      <parent link="wrist_pitch" />
+      <child link="wrist_roll" />
+      <origin xyz="-0.026255 0 0.051425" rpy="0 0 0" />
+      <limit lower="-2.61799" upper="2.61799" effort="100.0" velocity="1.0" />
+      <axis xyz="0 0 1" />
+    </joint>
+
+    <link name="wrist_roll">
+      <visual>
+        <origin xyz="0 0 0" rpy="3.1416 0 -1.5708" />
+        <geometry>
+          <mesh filename="package://labrob_description/meshes/cyton/wrist_roll.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="-0.0063 -0.0014 0.6102"/>
+        <geometry>
+          <!--mesh filename="package://labrob_description/meshes/cyton/wrist_roll.dae"/-->
+          <box size="0.0518 0.0723 0.1004"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.05"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <inertia ixx="0.001" iyy="0.001" izz="0.001"
+                  ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <joint name="gripper_joint1" type="prismatic">
+      <parent link="wrist_roll" />
+      <child link="gripper_finger1" />
+      <origin xyz="-0.01331 0.00485 0.077225" rpy="0 0 0" />
+      <limit lower="-0.008" upper="0.008" effort="100.0" velocity="1.0" />
+      <axis xyz="1 0 0" />
+    </joint>
+
+    <link name="gripper_finger1">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://labrob_description/meshes/cyton/gripper_finger1.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="-0.0167 0.0172 0.7254"/>
+        <geometry>
+          <!--mesh filename="package://labrob_description/meshes/cyton/gripper_finger1.dae"/-->
+          <box size="0.015 0.0229 0.0475"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.005"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <inertia ixx="0.0005" iyy="0.0005" izz="0.0005"
+                  ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <joint name="gripper_joint2" type="prismatic">
+      <parent link="wrist_roll" />
+      <child link="gripper_finger2" />
+      <origin xyz="0.0098 0.00485 0.077225" rpy="0 0 0" />
+      <limit lower="-0.008" upper="0.008" effort="100.0" velocity="1.0" />
+      <mimic joint="gripper_joint1" multiplier="-1"/>
+      <axis xyz="1 0 0" />
+    </joint>
+
+    <link name="gripper_finger2">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://labrob_description/meshes/cyton/gripper_finger2.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0.0132 0.0172 0.7254"/>
+        <geometry>
+          <!--mesh filename="package://labrob_description/meshes/cyton/gripper_finger2.dae"/-->
+          <box size="0.015 0.0229 0.0475"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.005"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <inertia ixx="0.0005" iyy="0.0005" izz="0.0005"
+                  ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+    
+    
+    <!--  virtual gripper  stuff  --> 
+
+    <joint name="virtual_endeffector_joint" type="fixed">
+      <parent link="wrist_roll"/>
+      <child link="virtual_endeffector"/>
+      <origin rpy="0 0 0" xyz="-0.002316 0.0079 0.079425"/>
+    </joint>
+
+    <link name="virtual_endeffector">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <sphere radius="0.002"/>
+        </geometry>
+        <material name="grey">
+          <color rgba="0.7 0.7 0.7 0.8"/>
+        </material>
+      </visual>
+    </link> 
+    
+<!-- transmission -->
+    <transmission name="shoulder_roll_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <actuator name="shoulder_roll_motor" >
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+      <joint name="shoulder_roll_joint" >
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+      </joint>
+    </transmission>
+
+    <transmission name="shoulder_pitch_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <actuator name="shoulder_pitch_motor" >
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+      <joint name="shoulder_pitch_joint" >
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+      </joint>
+    </transmission>
+
+    <transmission name="shoulder_yaw_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <actuator name="shoulder_yaw_motor" >
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+      <joint name="shoulder_yaw_joint" >
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+      </joint>
+    </transmission>
+
+    <transmission name="elbow_pitch_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <actuator name="elbow_pitch_motor" >
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+      <joint name="elbow_pitch_joint" >
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+      </joint>
+    </transmission>
+
+    <transmission name="elbow_yaw_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <actuator name="elbow_yaw_motor" >
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+      <joint name="elbow_yaw_joint" >
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+      </joint>
+    </transmission>
+
+    <transmission name="wrist_pitch_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <actuator name="wrist_pitch_motor" >
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+      <joint name="wrist_pitch_joint" >
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+      </joint>
+    </transmission>  
+
+    <transmission name="wrist_roll_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <actuator name="wrist_roll_motor" >
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+      <joint name="wrist_roll_joint" >
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+      </joint>
+    </transmission>
+    
+    <transmission name="gripper1_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <actuator name="gripper1_motor" >
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+      <joint name="gripper_joint1" >
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+      </joint>
+    </transmission>  
+
+   <transmission name="gripper2_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <actuator name="gripper2_motor" >
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+      <joint name="gripper_joint2" >
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+      </joint>
+    </transmission> 
+
+    <!-- ros_control plugin 
+    <gazebo>
+      <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+        <robotNamespace>/pioneer</robotNamespace>
+        <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+      </plugin>
+    </gazebo>-->
+
+    <!--<gazebo>
+      <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
+        <jointName>shoulder_roll_joint, shoulder_pitch_joint, shoulder_yaw_joint, elbow_pitch_joint, elbow_yaw_joint, wrist_pitch_joint, wrist_roll_joint, gripper_joint1, gripper_joint2</jointName>
+      </plugin>
+    </gazebo> -->
+  </xacro:macro>
+</robot>

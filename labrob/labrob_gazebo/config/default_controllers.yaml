@@ -1,0 +1,135 @@
+arm_controller:
+  follow_joint_trajectory:
+    type: "robot_controllers/FollowJointTrajectoryController"
+    joints:
+      - shoulder_roll_joint
+      - shoulder_pitch_joint
+      - shoulder_yaw_joint
+      - elbow_pitch_joint
+      - elbow_yaw_joint
+      - wrist_pitch_joint
+      - wrist_roll_joint
+  gravity_compensation:
+    type: "robot_controllers/GravityCompensation"
+    root: "top_plate"
+    tip: "gripper_finger1"
+    autostart: true
+    
+base_controller:
+  type: "robot_controllers/DiffDriveBaseController"
+  autostart: true
+  
+gripper_controller:
+  gripper_action:
+    type: "robot_controllers/ParallelGripperController"
+    centering:
+      p: 1000.0
+      d: 0.0
+      i: 0.0
+      i_clamp: 0.0
+      
+gazebo:
+  default_controllers:
+    - "arm_controller/follow_joint_trajectory"
+    - "arm_controller/gravity_compensation"
+    - "base_controller"
+    - "gripper_controller/gripper_action"
+  shoulder_roll_joint:
+    position:
+      p: 100.0
+      d: 0.1
+      i: 0.0
+      i_clamp: 0.0
+    velocity:
+      p: 10.0
+      d: 0.0
+      i: 0.0
+      i_clamp: 0.0
+  shoulder_pitch_joint:
+    position:
+      p: 100.0
+      d: 0.1
+      i: 0.0
+      i_clamp: 0.0
+    velocity:
+      p: 10.0
+      d: 0.0
+      i: 0.0
+      i_clamp: 0.0
+  shoulder_yaw_joint:
+    position:
+      p: 100.0
+      d: 0.1
+      i: 0.0
+      i_clamp: 0.0
+    velocity:
+      p: 10.0
+      d: 0.0
+      i: 0.0
+      i_clamp: 0.0
+  elbow_pitch_joint:
+    position:
+      p: 100.0
+      d: 0.1
+      i: 0.0
+      i_clamp: 0.0
+    velocity:
+      p: 10.0
+      d: 0.0
+      i: 0.0
+      i_clamp: 0.0
+  elbow_yaw_joint:
+    position:
+      p: 100.0
+      d: 0.1
+      i: 0.0
+      i_clamp: 0.0
+    velocity:
+      p: 10.0
+      d: 0.0
+      i: 0.0
+      i_clamp: 0.0
+  wrist_pitch_joint:
+    position:
+      p: 100.0
+      d: 0.1
+      i: 0.0
+      i_clamp: 0.0
+    velocity:
+      p: 10.0
+      d: 0.0
+      i: 0.0
+      i_clamp: 0.0
+  wrist_roll_joint:
+    position:
+      p: 100.0
+      d: 0.1
+      i: 0.0
+      i_clamp: 0.0
+    velocity:
+      p: 10.0
+      d: 0.0
+      i: 0.0
+      i_clamp: 0.0
+  gripper_joint1:
+    position:
+      p: 5000.0
+      d: 0.0
+      i: 0.0
+      i_clamp: 0.0
+    velocity:
+      p: 0.0
+      d: 0.0
+      i: 0.0
+      i_clamp: 0.0
+  gripper_joint2:
+    position:
+      p: 5000.0
+      d: 0.0
+      i: 0.0
+      i_clamp: 0.0
+    velocity:
+      p: 0.0
+      d: 0.0
+      i: 0.0
+      i_clamp: 0.0

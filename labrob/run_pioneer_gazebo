@@ -1,0 +1,64 @@
+#!/bin/bash
+ 
+my_pid=$$
+echo "My process ID is $my_pid"
+
+echo "Launching roscore..."
+roscore &
+pid=$!
+sleep 1s
+
+echo "Launching Gazebo..."
+#roslaunch labrob_gazebo labrob_gazebo.launch &
+roslaunch labrob_gazebo new_lab_play.launch &
+pid="$pid $!"
+
+sleep 10s
+
+echo "Launching tf publishers..."
+rosrun labrob_pioneer_ros labrob_pioneer_tf_broadcaster &
+pid="$pid $!"
+
+sleep 3s
+
+echo "Launching Odom publishers.."
+rosrun labrob_pioneer_ros labrob_pioneer_odom_publisher &
+pid="$pid $!"
+
+sleep 5s
+
+echo "Launching gmapping..."
+rosrun gmapping slam_gmapping scan:=/scan &
+pid="$pid $!"
+
+sleep 3s
+
+echo "Launching navigation stack..."
+roslaunch labrob_2dnav move_base.launch &
+pid="$pid $!"
+
+sleep 3s
+
+echo "Launching Rviz..."
+roslaunch labrob_description pioneer_rviz.launch &
+# #roslaunch labrob_description moveit_rviz.launch &
+
+sleep 5s
+
+echo "Launching pioneer controller..."
+#rosparam load "$(rospack find labrob_control)/config/pioneer_controller_param.yaml" labrob_control &
+roslaunch labrob_control labrob_control.launch &
+
+sleep 3s
+
+echo "Launching PID controller"
+rosrun labrob_pioneer_ros labrob_pioneer_pid_controller &
+pid="$pid $!"
+
+# sleep 3s
+
+# roslaunch labrob_control cyton_gamma_1500_control.launch &
+
+trap "echo Killing all processes.; kill -2 TERM $pid; exit" SIGINT SIGTERM
+
+sleep 24h

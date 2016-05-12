@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/justin/projectroot/svmlight/src/filterRect.cpp
+iostream
+-
+fstream
+-
+vector
+-
+stdlib.h
+-
+math.h
+-
+
