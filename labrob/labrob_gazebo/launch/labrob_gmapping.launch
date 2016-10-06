@@ -1,3 +1,0 @@
-<launch>
-  <include file="$(find labrob_navigation)/launch/includes/gmapping.launch.xml"/>
-</launch>

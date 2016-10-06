@@ -1,0 +1,66 @@
+<launch>
+  <!-- The name of the parameter under which the URDF is loaded -->
+  
+  <arg name="x" default="6.7" />
+  <arg name="y" default="3.0" />
+
+  <!-- Setup controllers -->
+  <rosparam file="$(find pioneer_cyton_gazebo)/config/default_controllers.yaml" command="load" />
+  <!--rosparam file="$(find pioneer_cyton_control)/config/pioneer_controller_param.yaml" command="load" /--> 
+
+  <!-- Load universal robot description format (URDF) 
+  <param name="robot_description" command="$(find xacro)/xacro.py $(find pioneer_cyton_description)/urdf/pioneer3dx.xacro" />-->
+  <param name="robot_description" command="$(find xacro)/xacro.py $(find pioneer_cyton_description)/robot/pioneer.gazebo.xacro" />
+  <!-- publish the state of a robot to tf -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
+    <param name="publish_frequency" value="100.0"/>
+  </node> 
+  
+  <!-- Put a robot in gazebo, make it look pretty -->
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+        args="-urdf -x $(arg x) -y $(arg y) -z 0 -model pioneer -param robot_description"/>
+        
+  <node name="prepare_robot" pkg="pioneer_cyton_gazebo" type="prepare_simulated_robot.py" />
+
+  <!-- Give this robot a serial number and version -->
+  <param name="robot/serial" value="ABCDEFGHIJKLMNOPQRSTUVWX" />
+  <param name="robot/version" value="0.0.1" />
+  
+  <!-- transform point cloud to laserscan 
+  <node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_to_laserscan">
+        <param name="scan_height" value="60"/>
+        <param name="output_frame_id" value="/camera_depth_frame"/>
+        <param name="range_min" value="0.05"/>
+        <param name="range_max" value="8.0"/>
+        <remap from="image" to="/camera/depth/image_raw"/>
+        <remap from="camera_info" to="/camera/depth/camera_info"/>
+        <remap from="scan" to="/scan"/>
+  </node>-->
+
+  <!-- Publish base_scan_raw if anything subscribes to it -->
+  <node name="publish_base_scan_raw" pkg="topic_tools" type="relay" args="base_scan base_scan_raw" >
+    <param name="lazy" type="bool" value="True"/>
+  </node>
+
+  <!-- Start a mux between application and teleop -->
+  <node pkg="topic_tools" type="mux" name="cmd_vel_mux" respawn="true" args="base_controller/command /cmd_vel /teleop/cmd_vel /pioneer/cmd_vel">
+    <remap from="mux" to="cmd_vel_mux" />
+  </node>
+
+  <node name="tf_broadcaster" pkg="pioneer_cyton_ros" type="pioneer_cyton_tf_broadcaster" /> 
+
+  <node name="odom_publisher" pkg="pioneer_cyton_ros" type="pioneer_cyton_odom_publisher" />
+  
+  <node pkg="gmapping" type="slam_gmapping" name="gmapping_thing" output="screen" >
+    <remap from="scan" to="/base_scan" />
+  </node>  
+
+  <node pkg="pioneer_cyton_ros" type="pioneer_cyton_pid_controller" name="pid_controller"/>
+  
+  <!-- Run Rviz and load the default config to see the state of the move_group node
+  <include file="$(find pioneer_cyton_moveit_generated)/launch/moveit_rviz.launch">
+    <arg name="config" value="true"/>
+    <arg name="debug" value="false"/>
+  </include>-->
+
+</launch>

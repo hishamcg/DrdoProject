@@ -1,8 +1,0 @@
-moveit_setup_assistant_config:
-  URDF:
-    package: labrob_description
-    relative_path: urdf/pioneer3dx.xacro
-  SRDF:
-    relative_path: config/pioneer.srdf
-  CONFIG:
-    generated_timestamp: 1460899686

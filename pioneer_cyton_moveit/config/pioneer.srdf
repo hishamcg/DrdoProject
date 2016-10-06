@@ -1,0 +1,216 @@
+<?xml version="1.0" ?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot name="pioneer">
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <group name="arm">
+        <joint name="shoulder_roll_joint" />
+        <joint name="shoulder_pitch_joint" />
+        <joint name="shoulder_yaw_joint" />
+        <joint name="elbow_pitch_joint" />
+        <joint name="elbow_yaw_joint" />
+        <joint name="wrist_pitch_joint" />
+        <joint name="wrist_roll_joint" />
+    </group>
+    <group name="gripper">
+        <link name="virtual_endeffector" />
+        <link name="l_gripper_finger_link" />
+        <link name="r_gripper_finger_link" />
+    </group>
+    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
+    <end_effector name="gripper" parent_link="wrist_roll_link" group="gripper" />
+    <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
+    <virtual_joint name="virtual_join" type="fixed" parent_frame="odom" child_link="base_link" />
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="back_sonar" link2="camera_link" reason="Never" />
+    <disable_collisions link1="back_sonar" link2="center_hubcap" reason="Never" />
+    <disable_collisions link1="back_sonar" link2="center_wheel" reason="Never" />
+    <disable_collisions link1="back_sonar" link2="chassis" reason="Adjacent" />
+    <disable_collisions link1="back_sonar" link2="cyton_base_link" reason="Never" />
+    <disable_collisions link1="back_sonar" link2="front_sonar" reason="Adjacent" />
+    <disable_collisions link1="back_sonar" link2="l_wheel_link" reason="Adjacent" />
+    <disable_collisions link1="back_sonar" link2="laser_link" reason="Adjacent" />
+    <disable_collisions link1="back_sonar" link2="left_hub" reason="Never" />
+    <disable_collisions link1="back_sonar" link2="r_wheel_link" reason="Adjacent" />
+    <disable_collisions link1="back_sonar" link2="right_hub" reason="Never" />
+    <disable_collisions link1="back_sonar" link2="shoulder_pitch" reason="Never" />
+    <disable_collisions link1="back_sonar" link2="shoulder_roll" reason="Never" />
+    <disable_collisions link1="back_sonar" link2="swivel" reason="Adjacent" />
+    <disable_collisions link1="back_sonar" link2="top_plate" reason="Adjacent" />
+    <disable_collisions link1="back_sonar" link2="virtual_endeffector" reason="Never" />
+    <disable_collisions link1="camera_link" link2="center_hubcap" reason="Never" />
+    <disable_collisions link1="camera_link" link2="center_wheel" reason="Never" />
+    <disable_collisions link1="camera_link" link2="chassis" reason="Never" />
+    <disable_collisions link1="camera_link" link2="cyton_base_link" reason="Never" />
+    <disable_collisions link1="camera_link" link2="front_sonar" reason="Never" />
+    <disable_collisions link1="camera_link" link2="l_wheel_link" reason="Never" />
+    <disable_collisions link1="camera_link" link2="laser_link" reason="Never" />
+    <disable_collisions link1="camera_link" link2="left_hub" reason="Never" />
+    <disable_collisions link1="camera_link" link2="r_wheel_link" reason="Never" />
+    <disable_collisions link1="camera_link" link2="right_hub" reason="Never" />
+    <disable_collisions link1="camera_link" link2="shoulder_pitch" reason="Never" />
+    <disable_collisions link1="camera_link" link2="shoulder_roll" reason="Never" />
+    <disable_collisions link1="camera_link" link2="shoulder_yaw" reason="Never" />
+    <disable_collisions link1="camera_link" link2="swivel" reason="Never" />
+    <disable_collisions link1="camera_link" link2="top_plate" reason="Adjacent" />
+    <disable_collisions link1="center_hubcap" link2="center_wheel" reason="Adjacent" />
+    <disable_collisions link1="center_hubcap" link2="chassis" reason="Never" />
+    <disable_collisions link1="center_hubcap" link2="cyton_base_link" reason="Never" />
+    <disable_collisions link1="center_hubcap" link2="elbow_pitch" reason="Never" />
+    <disable_collisions link1="center_hubcap" link2="elbow_yaw" reason="Never" />
+    <disable_collisions link1="center_hubcap" link2="front_sonar" reason="Never" />
+    <disable_collisions link1="center_hubcap" link2="l_gripper_finger_link" reason="Never" />
+    <disable_collisions link1="center_hubcap" link2="l_wheel_link" reason="Never" />
+    <disable_collisions link1="center_hubcap" link2="laser_link" reason="Never" />
+    <disable_collisions link1="center_hubcap" link2="left_hub" reason="Never" />
+    <disable_collisions link1="center_hubcap" link2="r_gripper_finger_link" reason="Never" />
+    <disable_collisions link1="center_hubcap" link2="r_wheel_link" reason="Never" />
+    <disable_collisions link1="center_hubcap" link2="right_hub" reason="Never" />
+    <disable_collisions link1="center_hubcap" link2="shoulder_pitch" reason="Never" />
+    <disable_collisions link1="center_hubcap" link2="shoulder_roll" reason="Never" />
+    <disable_collisions link1="center_hubcap" link2="shoulder_yaw" reason="Never" />
+    <disable_collisions link1="center_hubcap" link2="swivel" reason="Default" />
+    <disable_collisions link1="center_hubcap" link2="top_plate" reason="Never" />
+    <disable_collisions link1="center_hubcap" link2="virtual_endeffector" reason="Never" />
+    <disable_collisions link1="center_hubcap" link2="wrist_pitch_link" reason="Never" />
+    <disable_collisions link1="center_wheel" link2="chassis" reason="Never" />
+    <disable_collisions link1="center_wheel" link2="cyton_base_link" reason="Never" />
+    <disable_collisions link1="center_wheel" link2="elbow_pitch" reason="Never" />
+    <disable_collisions link1="center_wheel" link2="elbow_yaw" reason="Never" />
+    <disable_collisions link1="center_wheel" link2="front_sonar" reason="Never" />
+    <disable_collisions link1="center_wheel" link2="l_wheel_link" reason="Never" />
+    <disable_collisions link1="center_wheel" link2="laser_link" reason="Never" />
+    <disable_collisions link1="center_wheel" link2="left_hub" reason="Never" />
+    <disable_collisions link1="center_wheel" link2="r_wheel_link" reason="Never" />
+    <disable_collisions link1="center_wheel" link2="right_hub" reason="Never" />
+    <disable_collisions link1="center_wheel" link2="shoulder_pitch" reason="Never" />
+    <disable_collisions link1="center_wheel" link2="shoulder_roll" reason="Never" />
+    <disable_collisions link1="center_wheel" link2="shoulder_yaw" reason="Never" />
+    <disable_collisions link1="center_wheel" link2="swivel" reason="Adjacent" />
+    <disable_collisions link1="center_wheel" link2="top_plate" reason="Never" />
+    <disable_collisions link1="center_wheel" link2="virtual_endeffector" reason="Never" />
+    <disable_collisions link1="center_wheel" link2="wrist_pitch_link" reason="Never" />
+    <disable_collisions link1="chassis" link2="cyton_base_link" reason="Never" />
+    <disable_collisions link1="chassis" link2="front_sonar" reason="Adjacent" />
+    <disable_collisions link1="chassis" link2="l_wheel_link" reason="Adjacent" />
+    <disable_collisions link1="chassis" link2="laser_link" reason="Adjacent" />
+    <disable_collisions link1="chassis" link2="left_hub" reason="Never" />
+    <disable_collisions link1="chassis" link2="r_wheel_link" reason="Adjacent" />
+    <disable_collisions link1="chassis" link2="right_hub" reason="Never" />
+    <disable_collisions link1="chassis" link2="shoulder_pitch" reason="Never" />
+    <disable_collisions link1="chassis" link2="shoulder_roll" reason="Never" />
+    <disable_collisions link1="chassis" link2="swivel" reason="Adjacent" />
+    <disable_collisions link1="chassis" link2="top_plate" reason="Adjacent" />
+    <disable_collisions link1="cyton_base_link" link2="elbow_pitch" reason="Never" />
+    <disable_collisions link1="cyton_base_link" link2="front_sonar" reason="Never" />
+    <disable_collisions link1="cyton_base_link" link2="l_wheel_link" reason="Never" />
+    <disable_collisions link1="cyton_base_link" link2="laser_link" reason="Never" />
+    <disable_collisions link1="cyton_base_link" link2="left_hub" reason="Never" />
+    <disable_collisions link1="cyton_base_link" link2="r_wheel_link" reason="Never" />
+    <disable_collisions link1="cyton_base_link" link2="right_hub" reason="Never" />
+    <disable_collisions link1="cyton_base_link" link2="shoulder_pitch" reason="Never" />
+    <disable_collisions link1="cyton_base_link" link2="shoulder_roll" reason="Adjacent" />
+    <disable_collisions link1="cyton_base_link" link2="shoulder_yaw" reason="Never" />
+    <disable_collisions link1="cyton_base_link" link2="swivel" reason="Never" />
+    <disable_collisions link1="cyton_base_link" link2="top_plate" reason="Adjacent" />
+    <disable_collisions link1="elbow_pitch" link2="elbow_yaw" reason="Adjacent" />
+    <disable_collisions link1="elbow_pitch" link2="front_sonar" reason="Never" />
+    <disable_collisions link1="elbow_pitch" link2="l_gripper_finger_link" reason="Never" />
+    <disable_collisions link1="elbow_pitch" link2="r_gripper_finger_link" reason="Never" />
+    <disable_collisions link1="elbow_pitch" link2="shoulder_pitch" reason="Never" />
+    <disable_collisions link1="elbow_pitch" link2="shoulder_roll" reason="Never" />
+    <disable_collisions link1="elbow_pitch" link2="shoulder_yaw" reason="Adjacent" />
+    <disable_collisions link1="elbow_pitch" link2="swivel" reason="Never" />
+    <disable_collisions link1="elbow_pitch" link2="virtual_endeffector" reason="Never" />
+    <disable_collisions link1="elbow_pitch" link2="wrist_pitch_link" reason="Never" />
+    <disable_collisions link1="elbow_yaw" link2="l_gripper_finger_link" reason="Never" />
+    <disable_collisions link1="elbow_yaw" link2="r_gripper_finger_link" reason="Never" />
+    <disable_collisions link1="elbow_yaw" link2="shoulder_pitch" reason="Never" />
+    <disable_collisions link1="elbow_yaw" link2="shoulder_roll" reason="Never" />
+    <disable_collisions link1="elbow_yaw" link2="shoulder_yaw" reason="Never" />
+    <disable_collisions link1="elbow_yaw" link2="swivel" reason="Never" />
+    <disable_collisions link1="elbow_yaw" link2="virtual_endeffector" reason="Never" />
+    <disable_collisions link1="elbow_yaw" link2="wrist_pitch_link" reason="Adjacent" />
+    <disable_collisions link1="elbow_yaw" link2="wrist_roll_link" reason="Never" />
+    <disable_collisions link1="front_sonar" link2="l_wheel_link" reason="Adjacent" />
+    <disable_collisions link1="front_sonar" link2="laser_link" reason="Adjacent" />
+    <disable_collisions link1="front_sonar" link2="left_hub" reason="Never" />
+    <disable_collisions link1="front_sonar" link2="r_wheel_link" reason="Adjacent" />
+    <disable_collisions link1="front_sonar" link2="right_hub" reason="Never" />
+    <disable_collisions link1="front_sonar" link2="shoulder_pitch" reason="Never" />
+    <disable_collisions link1="front_sonar" link2="shoulder_roll" reason="Never" />
+    <disable_collisions link1="front_sonar" link2="shoulder_yaw" reason="Never" />
+    <disable_collisions link1="front_sonar" link2="swivel" reason="Adjacent" />
+    <disable_collisions link1="front_sonar" link2="top_plate" reason="Adjacent" />
+    <disable_collisions link1="l_gripper_finger_link" link2="r_gripper_finger_link" reason="Never" />
+    <disable_collisions link1="l_gripper_finger_link" link2="shoulder_yaw" reason="Never" />
+    <disable_collisions link1="l_gripper_finger_link" link2="virtual_endeffector" reason="Adjacent" />
+    <disable_collisions link1="l_gripper_finger_link" link2="wrist_pitch_link" reason="Never" />
+    <disable_collisions link1="l_gripper_finger_link" link2="wrist_roll_link" reason="Never" />
+    <disable_collisions link1="l_wheel_link" link2="laser_link" reason="Adjacent" />
+    <disable_collisions link1="l_wheel_link" link2="left_hub" reason="Adjacent" />
+    <disable_collisions link1="l_wheel_link" link2="r_wheel_link" reason="Adjacent" />
+    <disable_collisions link1="l_wheel_link" link2="right_hub" reason="Never" />
+    <disable_collisions link1="l_wheel_link" link2="shoulder_pitch" reason="Never" />
+    <disable_collisions link1="l_wheel_link" link2="shoulder_roll" reason="Never" />
+    <disable_collisions link1="l_wheel_link" link2="shoulder_yaw" reason="Never" />
+    <disable_collisions link1="l_wheel_link" link2="swivel" reason="Adjacent" />
+    <disable_collisions link1="l_wheel_link" link2="top_plate" reason="Adjacent" />
+    <disable_collisions link1="laser_link" link2="left_hub" reason="Never" />
+    <disable_collisions link1="laser_link" link2="r_wheel_link" reason="Adjacent" />
+    <disable_collisions link1="laser_link" link2="right_hub" reason="Never" />
+    <disable_collisions link1="laser_link" link2="shoulder_pitch" reason="Never" />
+    <disable_collisions link1="laser_link" link2="shoulder_roll" reason="Never" />
+    <disable_collisions link1="laser_link" link2="shoulder_yaw" reason="Never" />
+    <disable_collisions link1="laser_link" link2="swivel" reason="Adjacent" />
+    <disable_collisions link1="laser_link" link2="top_plate" reason="Adjacent" />
+    <disable_collisions link1="laser_link" link2="virtual_endeffector" reason="Never" />
+    <disable_collisions link1="left_hub" link2="r_wheel_link" reason="Never" />
+    <disable_collisions link1="left_hub" link2="right_hub" reason="Never" />
+    <disable_collisions link1="left_hub" link2="shoulder_pitch" reason="Never" />
+    <disable_collisions link1="left_hub" link2="shoulder_roll" reason="Never" />
+    <disable_collisions link1="left_hub" link2="shoulder_yaw" reason="Never" />
+    <disable_collisions link1="left_hub" link2="swivel" reason="Never" />
+    <disable_collisions link1="left_hub" link2="top_plate" reason="Never" />
+    <disable_collisions link1="left_hub" link2="virtual_endeffector" reason="Never" />
+    <disable_collisions link1="r_gripper_finger_link" link2="shoulder_yaw" reason="Never" />
+    <disable_collisions link1="r_gripper_finger_link" link2="virtual_endeffector" reason="Adjacent" />
+    <disable_collisions link1="r_gripper_finger_link" link2="wrist_pitch_link" reason="Never" />
+    <disable_collisions link1="r_wheel_link" link2="right_hub" reason="Adjacent" />
+    <disable_collisions link1="r_wheel_link" link2="shoulder_pitch" reason="Never" />
+    <disable_collisions link1="r_wheel_link" link2="shoulder_roll" reason="Never" />
+    <disable_collisions link1="r_wheel_link" link2="shoulder_yaw" reason="Never" />
+    <disable_collisions link1="r_wheel_link" link2="swivel" reason="Adjacent" />
+    <disable_collisions link1="r_wheel_link" link2="top_plate" reason="Adjacent" />
+    <disable_collisions link1="right_hub" link2="shoulder_pitch" reason="Never" />
+    <disable_collisions link1="right_hub" link2="shoulder_roll" reason="Never" />
+    <disable_collisions link1="right_hub" link2="shoulder_yaw" reason="Never" />
+    <disable_collisions link1="right_hub" link2="swivel" reason="Never" />
+    <disable_collisions link1="right_hub" link2="top_plate" reason="Never" />
+    <disable_collisions link1="shoulder_pitch" link2="shoulder_roll" reason="Adjacent" />
+    <disable_collisions link1="shoulder_pitch" link2="shoulder_yaw" reason="Adjacent" />
+    <disable_collisions link1="shoulder_pitch" link2="swivel" reason="Never" />
+    <disable_collisions link1="shoulder_pitch" link2="top_plate" reason="Never" />
+    <disable_collisions link1="shoulder_pitch" link2="virtual_endeffector" reason="Never" />
+    <disable_collisions link1="shoulder_pitch" link2="wrist_pitch_link" reason="Never" />
+    <disable_collisions link1="shoulder_roll" link2="shoulder_yaw" reason="Never" />
+    <disable_collisions link1="shoulder_roll" link2="swivel" reason="Never" />
+    <disable_collisions link1="shoulder_roll" link2="top_plate" reason="Never" />
+    <disable_collisions link1="shoulder_roll" link2="virtual_endeffector" reason="Never" />
+    <disable_collisions link1="shoulder_roll" link2="wrist_pitch_link" reason="Never" />
+    <disable_collisions link1="shoulder_yaw" link2="swivel" reason="Never" />
+    <disable_collisions link1="shoulder_yaw" link2="virtual_endeffector" reason="Never" />
+    <disable_collisions link1="shoulder_yaw" link2="wrist_pitch_link" reason="Never" />
+    <disable_collisions link1="shoulder_yaw" link2="wrist_roll_link" reason="Never" />
+    <disable_collisions link1="swivel" link2="top_plate" reason="Adjacent" />
+    <disable_collisions link1="swivel" link2="wrist_pitch_link" reason="Never" />
+    <disable_collisions link1="virtual_endeffector" link2="wrist_pitch_link" reason="Never" />
+    <disable_collisions link1="virtual_endeffector" link2="wrist_roll_link" reason="Adjacent" />
+    <disable_collisions link1="wrist_pitch_link" link2="wrist_roll_link" reason="Adjacent" />
+</robot>

@@ -1,0 +1,857 @@
+<robot name="pioneer">
+	<!-- Base link to interface with gmapping and move_base -->
+  <link name="base_link"/>
+
+  <!-- Chassis -->
+  <joint name="chassis_joint" type="fixed">
+    <origin xyz="-0.045 0 0.148" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="chassis"/>
+  </joint>
+
+  <link name="chassis">
+    <visual name="chassis_visual">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry name="pioneer_geom">
+      <mesh filename="package://pioneer_cyton_description/meshes/p3dx_meshes/chassis.stl"/>
+      </geometry>
+      <material name="ChassisRed"/>
+    </visual>
+    <collision>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="package://pioneer_cyton_description/meshes/p3dx_meshes/chassis.stl"/>
+				<!--box size="0.43 0.277 0.17"/-->
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="${5.67*2}"/>
+			<inertia ixx="${0.07*2}" ixy="0" ixz="0" iyy="${0.08*2}" iyz="0" izz="${0.10*2}"/>
+		</inertial>
+  </link>
+
+  <!-- Top -->
+  <joint name="base_top_joint" type="fixed">
+    <origin xyz="-0.045 0 0.234" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="top_plate"/>
+  </joint>
+
+  <link name="top_plate">
+    <visual>
+      <inertial>
+        <mass value="0.01"/>    
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1" ixy="0" ixz="0"
+             iyy="1" iyz="0"
+            izz="1"/>
+      </inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry name="top_geom">
+        <mesh filename="package://pioneer_cyton_description/meshes/p3dx_meshes/top.stl"/>
+      </geometry>
+      <material name="TopBlack"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://pioneer_cyton_description/meshes/p3dx_meshes/top.stl"/>
+        <!--box size="0.44 0.38 0.005"/-->
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Swivel -->
+  <joint name="base_swivel_joint" type="continuous">
+    <origin xyz="-0.185 0 0.055" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <parent link="base_link"/>
+    <child link="swivel"/>
+    <limit effort="8.85" velocity="17.4" />
+  </joint>
+  
+  <link name="swivel">
+    <inertial>
+      <mass value="0.1"/> 
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.01" ixy="0" ixz="0"
+           iyy="0.01" iyz="0" izz="0.01"/>
+  </inertial>
+    <visual name="base_visual">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry name="pioneer_geom">
+        <mesh filename="package://pioneer_cyton_description/meshes/p3dx_meshes/swivel.stl"/>
+      </geometry>
+      <material name="swivel"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://pioneer_cyton_description/meshes/p3dx_meshes/swivel.stl"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Swivel Hubcap -->
+  <link name="center_hubcap">
+    <inertial>
+      <mass value="0.01"/>    
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.012411765597" ixy="-0.000711733678" ixz="0.00050272983"
+           iyy="0.015218160428" iyz="-0.000004273467" izz="0.011763977943"/>
+    </inertial>
+    <visual name="base_visual">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry name="pioneer_geom">
+        <mesh filename="package://pioneer_cyton_description/meshes/p3dx_meshes/center_hubcap.stl"/>
+      </geometry>
+      <material name="HubcapGrey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://pioneer_cyton_description/meshes/p3dx_meshes/center_hubcap.stl"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="swivel_hubcap_joint" type="continuous">
+    <origin xyz="-0.026 0 -0.016" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <parent link="swivel"/>
+    <child link="center_wheel"/>
+    <limit effort="8.85" velocity="17.4" />
+  </joint>
+
+  <!-- Center Wheel -->
+  <link name="center_wheel">
+    <inertial>
+      <mass value="0.1"/> 
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.012411765597" ixy="-0.000711733678" ixz="0.00050272983"
+           iyy="0.015218160428" iyz="-0.000004273467" izz="0.011763977943"/>
+    </inertial>
+    <visual name="base_visual">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry name="pioneer_geom">
+        <mesh filename="package://pioneer_cyton_description/meshes/p3dx_meshes/center_wheel.stl"/>
+      </geometry>
+      <material name="WheelBlack"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://pioneer_cyton_description/meshes/p3dx_meshes/center_wheel.stl"/>
+          <!--<cylinder radius="0.0375" length="0.03"/>-->
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="center_wheel_joint" type="fixed">
+    <origin xyz="-0.0035 0 -0.001" rpy="0 0 0"/>
+    <parent link="center_wheel"/>
+    <child link="center_hubcap"/>
+  </joint>
+    
+  <!-- Left Wheel -->
+  <joint name="l_wheel_joint" type="continuous">
+    <origin xyz="0 0.155 0.093" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <anchor xyz="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="l_wheel_link"/>
+    <limit effort="100" velocity="100" />
+    <joint_properties damping="0.0" friction="0.0"/>
+  </joint>
+
+  <link name="l_wheel_link">
+    <inertial>
+      <mass value="0.1"/> 
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.012411765597" ixy="-0.000711733678" ixz="0.00050272983"
+             iyy="0.015218160428" iyz="-0.000004273467" izz="0.011763977943"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://pioneer_cyton_description/meshes/p3dx_meshes/left_wheel.stl"/>
+      </geometry>
+      <material name="WheelBlack"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://pioneer_cyton_description/meshes/p3dx_meshes/left_wheel.stl"/>
+        <!--<cylinder radius="0.092" length="0.04"/>-->
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Left Wheel Hub -->
+  <joint name="left_wheel_hub_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="l_wheel_link"/>
+    <child link="left_hub"/>
+  </joint>
+
+  <link name="left_hub">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://pioneer_cyton_description/meshes/p3dx_meshes/left_hubcap.stl"/>
+      </geometry>
+      <material name="HubcapYellow"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://pioneer_cyton_description/meshes/p3dx_meshes/left_hubcap.stl"/>
+      </geometry>
+    </collision>
+  </link>
+    
+  <!-- Right Wheel -->
+  <joint name="r_wheel_joint" type="continuous">
+    <origin xyz="0 -0.155 0.093" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <parent link="base_link"/>
+    <child link="r_wheel_link"/>
+    <anchor xyz="0 0 0"/>
+    <limit effort="100" velocity="100" />
+    <joint_properties damping="0.0" friction="0.0"/>
+  </joint>
+
+  <link name="r_wheel_link">
+    <inertial>
+      <mass value="0.1"/> 
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.012411765597" ixy="-0.000711733678" ixz="0.00050272983"
+           iyy="0.015218160428" iyz="-0.000004273467" izz="0.011763977943"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://pioneer_cyton_description/meshes/p3dx_meshes/right_wheel.stl"/>
+      </geometry>
+      <material name="WheelBlack"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://pioneer_cyton_description/meshes/p3dx_meshes/right_wheel.stl"/>
+          <!--<cylinder radius="0.092" length="0.04"/>-->
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Right Wheel Hub -->
+  <joint name="right_wheel_hub_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="r_wheel_link"/>
+      <child link="right_hub"/>
+  </joint>
+
+  <link name="right_hub">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://pioneer_cyton_description/meshes/p3dx_meshes/right_hubcap.stl"/>
+      </geometry>
+      <material name="HubcapYellow"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://pioneer_cyton_description/meshes/p3dx_meshes/right_hubcap.stl"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Front + Back Sonar -->
+  <link name="front_sonar">
+    <inertial>
+      <mass value="0.0001"/>  
+      <origin xyz="0 0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0"
+           iyy="1" iyz="0" izz="1"/>
+    </inertial>
+    <visual name="base_visual">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry name="pioneer_geom">
+        <mesh filename="package://pioneer_cyton_description/meshes/p3dx_meshes/front_sonar.stl"/>
+      </geometry>
+      <material name="SonarYellow"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://pioneer_cyton_description/meshes/p3dx_meshes/front_sonar.stl"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="base_front_joint" type="fixed">
+    <origin xyz="-0.198 0 0.208" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="front_sonar"/>
+  </joint>
+
+  <link name="back_sonar">
+    <inertial>
+      <mass value="0.0001"/>  
+      <origin xyz="0 0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0"
+           iyy="1" iyz="0" izz="1"/>
+    </inertial>
+    <visual name="back_sonar_vis">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry name="pioneer_geom">
+        <mesh filename="package://pioneer_cyton_description/meshes/p3dx_meshes/back_sonar.stl"/>
+      </geometry>
+      <material name="SonarYellow"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://pioneer_cyton_description/meshes/p3dx_meshes/back_sonar.stl"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="base_back_joint" type="fixed">
+    <origin xyz="0.109 0 0.209" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="back_sonar"/>
+  </joint>
+
+  <!-- Kinect -->
+  <joint name="camera_rgb_joint" type="fixed">
+    <origin xyz="0.0 0 0.5" rpy="0 0.49 0"/>
+    <parent link="top_plate"/>
+    <child link="camera_rgb_frame" />
+  </joint>
+  <link name="camera_rgb_frame"/>
+
+  <joint name="camera_rgb_optical_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="-1.57079633 0 -1.57079633" />
+    <parent link="camera_rgb_frame" />
+    <child link="camera_rgb_optical_frame" />
+  </joint>
+  <link name="camera_rgb_optical_frame"/>
+
+  <joint name="camera_joint" type="fixed">
+    <origin xyz="-0.031 -0.0125 -0.016" rpy="0 0 0"/>
+    <parent link="camera_rgb_frame"/>
+    <child link="camera_link"/>
+  </joint>  
+
+  <link name="camera_link">
+    <visual>
+     <origin xyz="0 0 0" rpy="0 0 1.57079633"/>
+      <geometry>
+        <mesh filename="package://pioneer_cyton_description/meshes/sensors/kinect.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 1.57079633"/>
+      <geometry>
+        <mesh filename="package://pioneer_cyton_description/meshes/sensors/kinect.dae"/>
+        <!--box size="0.07271 0.27794 0.073"/-->
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.564" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.003881243" ixy="0.0" ixz="0.0"
+               iyy="0.000498940" iyz="0.0"
+               izz="0.003879257" />
+    </inertial>
+  </link>
+
+  <!-- The fixed joints & links below are usually published by static_transformers launched by the OpenNi launch 
+       files. However, for Gazebo simulation we need them, so we add them here.
+       (Hence, don't publish them additionally!) -->
+
+  <joint name="camera_depth_joint" type="fixed">
+    <origin xyz="0 -0.025 0" rpy="0 0 0" />
+    <parent link="camera_rgb_frame" />
+    <child link="camera_depth_frame" />
+  </joint>
+  <link name="camera_depth_frame"/>
+
+  <joint name="camera_depth_optical_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="-1.57079633 0 -1.57079633" />
+    <parent link="camera_depth_frame" />
+    <child link="camera_depth_optical_frame" />
+  </joint>
+  <link name="camera_depth_optical_frame"/>
+  
+  <!-- Kinect sensor for simulation -->
+  <turtlebot_sim_3dsensor/>
+
+  <!-- Laser scanner -->
+  
+  <link name="laser_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="-0.0306228970175641 0.0007091682908278 0.0551974119471302" />
+      <mass value="0.00833634573995571" />
+      <inertia ixx="1.01866461240801E-06" ixy="-5.88447626567756E-08" ixz="7.83857244757914E-08" iyy="5.10039589974707E-07" iyz="-7.12664289617235E-09" izz="1.28270671527309E-06" />
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://fetch_description/meshes/laser_link.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://fetch_description/meshes/laser_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="laser_joint" type="fixed">
+    <origin rpy="3.14159265359 0 0" xyz="0.235 0 0.2" />
+    <parent link="base_link" />
+    <child link="laser_link" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+    <!-- Cyton Gamma --> 
+
+    <joint name="cyton_base_joint" type="fixed">
+      <origin xyz="-0.08 0 0.2" rpy="0 1.5708 0"/>
+      <parent link="top_plate"/>
+      <child link="cyton_base_link" />
+    </joint>
+
+    <link name="cyton_base_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://pioneer_cyton_description/meshes/cyton/base.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://pioneer_cyton_description/meshes/cyton/base.dae"/>
+          <!--box size="0.154 0.177 0.094"/-->
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.5"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <inertia ixx="0.01" iyy="0.01" izz="0.01"
+                  ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <joint name="shoulder_roll_joint" type="revolute">
+      <parent link="cyton_base_link" />
+      <child link="shoulder_roll" />
+      <origin xyz="0 0 0.05315" rpy="0 0 0" />
+      <limit lower="-2.618" upper="2.618" effort="100.0" velocity="1.0" />
+      <axis xyz="0 0 1" />
+    </joint>
+
+    <link name="shoulder_roll">
+      <visual>
+        <origin xyz="0 0 0" rpy="1.5708 0 0.384"/>
+        <geometry>
+          <mesh filename="package://pioneer_cyton_description/meshes/cyton/shoulder_roll.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="1.5708 0 0.384"/>
+        <geometry>
+          <mesh filename="package://pioneer_cyton_description/meshes/cyton/shoulder_roll.dae"/>
+          <!--box size="0.09829 0.18143 0.08392"/-->
+        </geometry>
+      </collision>
+     <inertial>
+        <mass value="0.25"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <inertia ixx="0.005" iyy="0.005" izz="0.005"
+                  ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <joint name="shoulder_pitch_joint" type="revolute">
+      <parent link="shoulder_roll" />
+      <child link="shoulder_pitch" />
+      <origin xyz="0.0205 0 0.12435" rpy="0 0 0" />
+      <limit lower="-1.8326" upper="1.8326" effort="100.0" velocity="1.0" />
+      <axis xyz="1 0 0" />
+    </joint>
+
+    <link name="shoulder_pitch">
+      <visual>
+        <origin xyz="0 0 0" rpy="1.5708 0 0" />
+        <geometry>
+          <mesh filename="package://pioneer_cyton_description/meshes/cyton/shoulder_pitch.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="1.5708 0 0" />
+        <geometry>
+          <mesh filename="package://pioneer_cyton_description/meshes/cyton/shoulder_pitch.dae"/>
+          <!--box size="0.0709 0.19363 0.083"/-->
+        </geometry>
+      </collision>
+     <inertial>
+        <mass value="0.1"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <inertia ixx="0.002" iyy="0.002" izz="0.002"
+                  ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <joint name="shoulder_yaw_joint" type="revolute">
+      <parent link="shoulder_pitch" />
+      <child link="shoulder_yaw" />
+      <origin xyz="-0.0215 -0.0205 0.1255" rpy="0 0 0" />
+      <limit lower="-1.8326" upper="1.8326" effort="100.0" velocity="1.0" />
+      <axis xyz="0 -1 0" />
+    </joint>
+
+    <link name="shoulder_yaw">
+      <visual>
+        <origin xyz="0 0 0.0" rpy="1.5708 0 -1.5708" />
+        <geometry>
+          <mesh filename="package://pioneer_cyton_description/meshes/cyton/shoulder_yaw.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.0" rpy="1.5708 0 -1.5708" />
+        <geometry>
+      	  <mesh filename="package://pioneer_cyton_description/meshes/cyton/shoulder_yaw.dae"/>
+          <!--box size="0.0717 0.1846 0.0756"/-->
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.05"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <inertia ixx="0.001" iyy="0.001" izz="0.001"
+                  ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <joint name="elbow_pitch_joint" type="revolute">
+      <parent link="shoulder_yaw" />
+      <child link="elbow_pitch" />
+      <origin xyz="0.018 0.0206 0.1158" rpy="0 0 0" />
+      <limit lower="-1.8326" upper="1.8326" effort="100.0" velocity="1.0" />
+      <axis xyz="1 0 0" />
+    </joint>
+
+    <link name="elbow_pitch">
+      <visual>
+        <origin xyz="0 0 0" rpy="1.5708 0 3.1416" />
+        <geometry>
+          <mesh filename="package://pioneer_cyton_description/meshes/cyton/elbow_pitch.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="1.5708 0 3.1416" />
+        <geometry>
+	        <mesh filename="package://pioneer_cyton_description/meshes/cyton/elbow_pitch.dae"/>
+          <!--box size="0.0549 0.1557 0.076"/-->
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.05"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <inertia ixx="0.001" iyy="0.001" izz="0.001"
+                  ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <joint name="elbow_yaw_joint" type="revolute">
+      <parent link="elbow_pitch" />
+      <child link="elbow_yaw" />
+      <origin xyz="-0.0171 -0.018 0.09746" rpy="0 0 0" />
+      <limit lower="-1.8326" upper="1.8326" effort="100.0" velocity="1.0" />
+      <axis xyz="0 -1 0" />
+    </joint>
+
+    <link name="elbow_yaw">
+      <visual>
+        <origin xyz="0 0 0" rpy="1.5708 0 1.5708" />
+        <geometry>
+          <mesh filename="package://pioneer_cyton_description/meshes/cyton/elbow_yaw.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="1.5708 0 1.5708" />
+        <geometry>
+          <mesh filename="package://pioneer_cyton_description/meshes/cyton/elbow_yaw.dae"/>
+          <!--box size="0.0535 0.1160 0.0402"/-->
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.05"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <inertia ixx="0.001" iyy="0.001" izz="0.001"
+                  ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <joint name="wrist_pitch_joint" type="revolute">
+      <parent link="elbow_yaw" />
+      <child link="wrist_pitch_link" />
+      <origin xyz="0.02626 0.018 0.0718" rpy="0 0 0" />
+      <limit lower="-1.8326" upper="1.8326" effort="100.0" velocity="1.0" />
+      <axis xyz="1 0 0" />
+    </joint>
+
+    <link name="wrist_pitch_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="1.5708 0 1.5708" />
+        <geometry>
+          <mesh filename="package://pioneer_cyton_description/meshes/cyton/wrist_pitch.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="1.5708 0 1.5708" />
+        <geometry>
+          <mesh filename="package://pioneer_cyton_description/meshes/cyton/wrist_pitch.dae"/>
+          <!--box size="0.026 0.0435 0.05185"/-->
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.05"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <inertia ixx="0.001" iyy="0.001" izz="0.001"
+                  ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <joint name="wrist_roll_joint" type="revolute">
+      <parent link="wrist_pitch_link" />
+      <child link="wrist_roll_link" />
+      <origin xyz="-0.026255 0 0.051425" rpy="0 0 0" />
+      <limit lower="-2.61799" upper="2.61799" effort="100.0" velocity="1.0" />
+      <axis xyz="0 0 1" />
+    </joint>
+
+    <link name="wrist_roll_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="3.1416 0 -1.5708" />
+        <geometry>
+          <mesh filename="package://pioneer_cyton_description/meshes/cyton/wrist_roll.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="3.1416 0 -1.5708" />
+        <geometry>
+          <mesh filename="package://pioneer_cyton_description/meshes/cyton/wrist_roll.dae"/>
+          <!--box size="0.0518 0.0723 0.1004"/-->
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.05"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <inertia ixx="0.001" iyy="0.001" izz="0.001"
+                  ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <!--temp-->
+
+    <!--link name="gripper_link">
+      <inertial>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <mass value="0.2" />
+        <inertia ixx="0.0002" ixy="-0.0" ixz="0.0" iyy="0.0002" iyz="-0.0" izz="0.0003" />
+      </inertial>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <box size="0.1 0.1 0.04"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <box size="0.1 0.1 0.04"/>
+        </geometry>
+      </collision>
+    </link>
+    <joint name="gripper_axis" type="fixed">
+      <origin rpy="0 0 0" xyz="0.08 0 0" />
+      <parent link="wrist_roll_link" />
+      <child link="gripper_link" />
+    </joint>
+
+    <link name="r_gripper_finger_link">
+      <inertial>
+        <origin rpy="0 0 0" xyz="-0.01 0 0" />
+        <mass value="0.07" />
+        <inertia ixx="0.002" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+      </inertial>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0.101425 0" />
+        <geometry>
+          <mesh filename="package://fetch_description/meshes/r_gripper_finger_link.STL" />
+        </geometry>
+        <material name="">
+          <color rgba="0.356 0.361 0.376 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0.101425 0" />
+        <geometry>
+          <mesh filename="package://fetch_description/meshes/r_gripper_finger_link.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <joint name="r_gripper_finger_joint" type="prismatic">
+      <origin rpy="0 0 0" xyz="0.08 0 0" />
+      <parent link="gripper_link" />
+      <child link="r_gripper_finger_link" />
+      <axis xyz="0 1 0" />
+    <limit effort="60" lower="0.0" upper="0.05" velocity="0.05" /><dynamics damping="100.0" /></joint>
+    <link name="l_gripper_finger_link">
+      <inertial>
+        <origin rpy="0 0 0" xyz="-0.01 0 0" />
+        <mass value="0.07" />
+        <inertia ixx="0.002" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+      </inertial>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 -0.101425 0" />
+        <geometry>
+          <mesh filename="package://fetch_description/meshes/l_gripper_finger_link.STL" />
+        </geometry>
+        <material name="">
+          <color rgba="0.356 0.361 0.376 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 -0.101425 0" />
+        <geometry>
+          <mesh filename="package://fetch_description/meshes/l_gripper_finger_link.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <joint name="l_gripper_finger_joint" type="prismatic">
+      <origin rpy="0 0 0" xyz="0.08 0 0" />
+      <parent link="gripper_link" />
+      <child link="l_gripper_finger_link" />
+      <axis xyz="0 -1 0" />
+    <limit effort="60" lower="0.0" upper="0.05" velocity="0.05" /><dynamics damping="100.0" /></joint-->
+
+    <!-- not using now -->
+
+    <joint name="l_gripper_finger_joint" type="prismatic">
+      <parent link="virtual_endeffector" />
+      <child link="l_gripper_finger_link" />
+      <origin xyz="-0.01331 0.00485 0.01" rpy="0 0 0" />
+      <limit lower="-0.008" upper="0.008" effort="100.0" velocity="0.05" />
+      <axis xyz="-1 0 0" />
+    </joint>
+
+    <link name="l_gripper_finger_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://pioneer_cyton_description/meshes/cyton/gripper_finger1.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://pioneer_cyton_description/meshes/cyton/gripper_finger1.dae"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.005"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <inertia ixx="0.0005" iyy="0.0005" izz="0.0005"
+                  ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <joint name="r_gripper_finger_joint" type="prismatic">
+      <parent link="virtual_endeffector" />
+      <child link="r_gripper_finger_link" />
+      <origin xyz="0.0098 0.00485 0.01" rpy="0 0 0" />
+      <limit lower="-0.008" upper="0.008" effort="100.0" velocity="0.05" />
+      <!--mimic joint="l_gripper_finger_joint" multiplier="-1"/-->
+      <axis xyz="1 0 0" />
+    </joint>
+
+    <link name="r_gripper_finger_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://pioneer_cyton_description/meshes/cyton/gripper_finger2.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://pioneer_cyton_description/meshes/cyton/gripper_finger2.dae"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.005"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <inertia ixx="0.0005" iyy="0.0005" izz="0.0005"
+                  ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <joint name="virtual_endeffector_joint" type="fixed">
+      <parent link="wrist_roll_link"/>
+      <child link="virtual_endeffector"/>
+      <origin rpy="0 0 0" xyz="-0.002316 0.0079 0.079425"/>
+      <axis xyz="0 0 0"/>
+    </joint>
+
+    <link name="virtual_endeffector">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <sphere radius="0.002"/>
+        </geometry>
+      </visual>
+      <inertial>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <mass value="0.02" />
+        <inertia ixx="0.00002" ixy="-0.0" ixz="0.0" iyy="0.00002" iyz="-0.0" izz="0.00003" />
+      </inertial>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <sphere radius="0.002"/>
+        </geometry>
+      </collision>
+    </link> 
+
+    <transmission name="tran1">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="l_wheel_joint">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor1">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="tran2">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="r_wheel_joint">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor2">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+</robot>

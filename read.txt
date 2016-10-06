@@ -1,0 +1,6 @@
+Removing ros-indigo-fetch-gazebo-demo (0.7.1-0trusty-20160419-231410-0700) ...
+Removing ros-indigo-simple-grasping (0.2.2-0trusty-20160823-030124-0700) ...
+
+installing from source
+
+git clone https://github.com/mikeferguson/simple_grasping.git

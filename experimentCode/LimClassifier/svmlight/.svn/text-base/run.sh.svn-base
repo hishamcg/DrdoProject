@@ -1,4 +1,0 @@
-#!/bin/sh
-./bin/rank /misc/projects/jamming_IROS11/experiment_3-10/pcd$1r.png /misc/projects/jamming_IROS11/experiment_3-10/background.png  /misc/projects/jamming_IROS11/experiment_3-10/pcd$1.txt /misc/projects/jamming_IROS11/svm_data/model_jamming.txt /misc/projects/jamming_IROS11/experiment_3-10/jam_result &
-sudo renice -20 $!
-
