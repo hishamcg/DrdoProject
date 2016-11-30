@@ -38,6 +38,7 @@ from moveit_python import (MoveGroupInterface,
                            PickPlaceInterface)
 from moveit_python.geometry import rotate_pose_msg_by_euler_angles
 
+#all these are msg files more like objects for ros. for eg: https://github.com/girvaw2/Robotics/blob/master/ros/control/control_msgs/msg/FollowJointTrajectoryAction.msg
 from control_msgs.msg import FollowJointTrajectoryAction, FollowJointTrajectoryGoal
 from control_msgs.msg import PointHeadAction, PointHeadGoal
 from grasping_msgs.msg import FindGraspableObjectsAction, FindGraspableObjectsGoal
@@ -82,10 +83,18 @@ class GraspingClient(object):
 
     def updateScene(self):
         # find objects
+        # here i am declaring goal as an object. https://github.com/mikeferguson/grasping_msgs/blob/master/action/FindGraspableObjects.action
         goal = FindGraspableObjectsGoal()
         goal.plan_grasps = True
+        
+        # passing the object to find_client
+        # now find_client is wer magic happens
+        # on demo.launch file i am runnning basic_grasping_perception. (below <!-- Start Perception -->)
+        # this keeps running on background and i use actionlib (initalize on init) to get a hook to it.
+        # find_client is connected to basic_grasping_perception
         self.find_client.send_goal(goal)
         self.find_client.wait_for_result(rospy.Duration(5.0))
+        # here we get all the objects
         find_result = self.find_client.get_result()
 
         # remove previous objects
@@ -95,22 +104,22 @@ class GraspingClient(object):
             self.scene.removeAttachedObject(name, False)
         self.scene.waitForSync()
 
-        # insert objects to scene
         rospy.loginfo("updating scene")
-        idx = -1
-
+        idx = 0
+        # insert objects to the planning scene
+        #TODO so these two for loops yo can hardcode the values. try printing all the params and u will understand
         for obj in find_result.objects:
-            idx += 1
             rospy.loginfo("object number -> %d" %idx)
             obj.object.name = "object%d"%idx
             self.scene.addSolidPrimitive(obj.object.name,
                                          obj.object.primitives[0],
                                          obj.object.primitive_poses[0],
                                          wait = False)
-
+            
+            idx += 1
             # for grp in obj.grasps:
             #     grp.grasp_pose.pose.position.z = 0.37
-
+        # this is just minor adjustments i did mess up with this code. just follwed simple gasp thingy
         for obj in find_result.support_surfaces:
             # extend surface to floor, and make wider since we have narrow field of view
             height = obj.primitive_poses[0].position.z
@@ -141,7 +150,7 @@ class GraspingClient(object):
             rospy.loginfo("no. of grasps detected %d dim => %f" % (len(obj.grasps), obj.object.primitives[0].dimensions[0]))
             if len(obj.grasps) < 1:
                 continue
-            # check size
+            # check size our object is a 0.05^3 cube
             if obj.object.primitives[0].dimensions[0] < 0.04 or \
                obj.object.primitives[0].dimensions[0] > 0.06 or \
                obj.object.primitives[0].dimensions[1] < 0.04 or \
@@ -200,6 +209,7 @@ class GraspingClient(object):
         return success
 
     def tuck(self):
+        # so for each joint i will pass a specific value. first arms are move to pose1 then pose2 then pose3 sequentially
         joints = ["shoulder_roll_joint", "shoulder_pitch_joint", "shoulder_yaw_joint", 
                   "elbow_pitch_joint", "elbow_yaw_joint", "wrist_pitch_joint", "wrist_roll_joint"]
         pose1 = [1.57079633, 0, 0, 0, 0, 0, 0.0]
@@ -221,18 +231,26 @@ if __name__ == "__main__":
         pass
 
     # Setup clients
+    # so this one just moves the robot to what ever pos u want
     move_base = MoveBaseClient()
+    
+    # and this one just does all the rest. cluster and find object, select which object to pick, get grasping
+    # pos and orientation, and passes the value to moveit and picks.
     grasping_client = GraspingClient()
 
     # Move the base to be in front of the table
-    # Demonstrates the use of the navigation stack
+    # this is how you log data to terminal.
     rospy.loginfo("Moving to table...")
     # move_base.goto(6.7, 3, 0.0)
+    # the initial pos of the robot is set in pioneer_cyton.launch.xml
+    # now this will make th robot actually move
     move_base.goto(7.4, 3, 0.0)
     
     # Get block to pick
+    # make sure ros is runnong
     while not rospy.is_shutdown():
         rospy.loginfo("Picking object...")
+        #this is just like refreshing. *go to this*
         grasping_client.updateScene()
         cube, grasps = grasping_client.getGraspableCube()
         if cube == None:
